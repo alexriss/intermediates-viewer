@@ -1,6 +1,8 @@
 # Intermediates 3D viewer
 
-Interactive three-dimensional viewer for our upcoming publication that investigates the transformation of enediyne molecules using nc-AFM.
+Interactive three-dimensional viewer for our upcoming publication that investigates the surface-supported coupling and cyclization reactions of enediyne molecules using nc-AFM.
+
+![Screenshot](/screenshot.png?raw=true "Screenshot")
 
 This viewer shows representations of the relaxed molecular geometries, the kinetic energy dissipation calculations, as well as time evolution of the calculated kinetic energy for a molecular transformation step.
 
