@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Versatile Viewer - Structures, Dissipation Calculations, and Dissipation Dynamics for the Intermediates Project.</title>
+        <meta name="description" content="3D viewes for the calculations associated with the Intermediates-Project. Based on imolecule, three.js." />
+        <meta name="author" content="Alex Riss" />
+        <script src="libs_prod/jquery-1.11.1.min.js"></script>
+        <script src="libs_prod/jquery-ui.min.js"></script>        
+        <script src="libs_prod/three.min.js"></script>
+        <script src="libs_prod/TrackballControls.min.js"></script>
+        <script src="libs_prod/ShaderToon.min.js"></script>
+        <script src="libs_prod/papaparse.min.js"></script>
+        <script src="libs_prod/chroma.min.js"></script>
+        <script src="all.min.js"></script>  <!-- based on imolecule, which is Copyright (C) 2013 Patrick Fuller, patrick-fuller.com -->
+        <link href="styles2.css" rel="stylesheet" type="text/css" />
+        <link href="libs_prod/jquery-ui.min.css" rel="stylesheet">
+        <link href="libs_prod/jquery-ui.theme.min.css" rel="stylesheet">
+        <link rel="icon" href="favicon.png">
+        <link href='https://fonts.googleapis.com/css?family=Exo+2:400,700,400italic' rel='stylesheet' type='text/css'>  
+        <link href='https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300' rel='stylesheet' type='text/css'>        
+    </head>
+    <body>
+        <div id="imolecule" style=""></div>
+    
+        <div id="description_smallmenu" style="display:none;">
+            <h1>&#9776; 3D Viewer</h1>
+        </div>
+
+        <div id="description">
+            <div id="description_close">&#10005;</div>
+            <h1>3D Viewer</h1>
+
+            <select id="camera-type">
+                <option>perspective</option>
+                <option>orthographic</option>
+            </select>
+            <select id="drawing-types">
+                <option>ball and stick</option>
+                <option>space filling</option>
+                <option>wireframe</option>
+            </select>
+            <div id="shininess_controls">
+                <div id="shininess_caption" class="slider_caption">Shininess:</div><div id="slider_shininess"></div>
+            </div>
+            <p id="camera_controls">
+                View: &#160; &#160;
+                <a href="#" id="cam_mem">MEM</a>
+                <a href="#" id="cam_rcl">RCL</a>
+                <a href="#" id="cam_x">x</a>
+                <a href="#" id="cam_y">y</a>
+                <a href="#" id="cam_z">z</a>
+            </p>
+            <p id="instructions">Use left mouse button to rotate, middle/wheel to zoom.</p>
+            
+            <div class="spacer"></div>
+
+            <h2>Structures</h2>
+            <p style="margin-bottom:12px;">Optimized Geometries: <span id="structure_loading" class="loading" style="display:none;">loading...</span></p>
+            <p id="structure_links"></p>
+            
+            <div class="spacer"></div>
+            
+            <h2>Dissipation</h2>
+            <p style="margin-bottom:12px;">Kinetic energy of each atom<br /> after the formation of:
+            <span id="dissipation_loading" class="loading" style="display:none;">loading... <span id="dissipation_loading_percentage"></span></span></p>
+            <p id="structure_links_dissipation"></p>
+
+            <div class="spacer"></div>
+            
+            <!-- <h2>Avid Animations</h2> //-->
+            <h2>Dissipation Dynamics</h2>
+            <p style="margin-bottom:12px;">Simulation for <b>2b</b> &#8594; <b>3a</b>.
+            <span id="animation_loading" class="loading" style="display:none;">loading... <span id="animation_loading_percentage"></span></span></p>
+            <div id="animation_controls_all">
+            <div class="slider_caption">Speed:</div><div id="slider_speed"></div><br/><div style="height:6px;"></div>
+            <div class="slider_caption">Time:</div><div id="slider_time"></div><div class="slider_value"><span id='slider_simulated_time'>0</span> fs</div>
+            <p id="animation_controls">
+                <a href="#" id="anim_start">Start</a>
+            </p>
+            </div>
+            <br />
+            <p></p>
+        </div>
+        
+        <div id="colorscale_time" style="display:none;">
+            <canvas id="colorscale_animation" width="240" height="900">Your browser does not support the HTML5 canvas tag.</canvas>
+            <br />
+            <p id='animation_time'><span id='simulated_time'>0</span> fs</p>
+            <div id="colorscale_animation_captions">
+                <div id="coloscale_captions_label">energy [eV]</div>
+            </div>
+        </div>
+        
+        <div id="colorscale_single" style="display:none;">
+            <canvas id="colorscale_dissipation_single" width="240" height="900">Your browser does not support the HTML5 canvas tag.</canvas>
+            <br />
+            <div id="colorscale_dissipation_single_captions">
+                <div id="coloscale_single_label">energy [eV]</div>
+            </div>
+        </div>
+
+        <div id="energy_molecule_substrate" style="display:none;">
+            <div id="energy_molecule"><div class="caption">Molecule</div><div class="barcontainer"><div class="bar"></div></div><div class="label"></div></div>
+            <div id="energy_substrate"><div class="caption">Substrate</div><div class="barcontainer"><div class="bar"></div></div><div class="label"></div></div>
+        </div>
+
+        <div id="error_webgl" class="error_main" style="display:none;">
+            <p><b>WebGL disabled.</b></p><br/>
+            <p>Your browser does not seem to support <a href="http://khronos.org/webgl/wiki/Getting_a_WebGL_Implementation">WebGL</a>
+            or your browser has WebGL disabled.<br/>
+            Find out how to get it <a href="http://get.webgl.org/">here</a>.</p>
+        </div>
+        
+        <div id="footer">
+            <p>by Alex Riss - <a rel=license" "href=""http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">CC-BY-SA</a>; <span class="bright">based on <a href="https://github.com/patrickfuller/imolecule" target="_blank">Patrick Fuller's imolecule</a>.</span></p>
+        </div>
+    </body>
+</html>
