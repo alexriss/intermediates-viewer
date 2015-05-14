@@ -2,7 +2,7 @@
 
 Interactive three-dimensional viewer for our upcoming publication that investigates the surface-supported coupling and cyclization reactions of enediyne molecules using nc-AFM.
 
-[http://alexriss.github.io/intermediates-viewer/]()http://alexriss.github.io/intermediates-viewer/)
+[http://alexriss.github.io/intermediates-viewer/](http://alexriss.github.io/intermediates-viewer/)
  
 
 ![Screenshot](/screenshot.png?raw=true "Screenshot")
