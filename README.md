@@ -19,4 +19,4 @@ The project is based on:
 - [jQuery](https://jquery.com/)
 
 
-The rendered views (i.e. the displayed structures) are released under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
+The rendered views (i.e. the displayed structures) can be used under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
